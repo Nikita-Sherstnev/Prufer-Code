@@ -9,24 +9,26 @@ public class PruferCode {
     private String adjLists = "";
 
     public String getAdjacencyLists(String pruferString) {
-        for (int i = 0; i < pruferString.length(); i++) {
-            prufer.add(Character.getNumericValue(pruferString.charAt(i)));
+        if (pruferString == "") {
+            return "1: 2\n2: 1";
+        }
+
+        String pruferList[] = pruferString.split(" ");
+
+        for (int i = 0; i < pruferList.length; i++) {
+                prufer.add(Integer.valueOf(pruferList[i]));
         }
         for (int i = 0; i < prufer.size() + 2; i++) {
             vertices.add(i);
         }
 
         int amountOfVertices = vertices.size();
+
         for (int i = 0; i < amountOfVertices - 2; i++) {
             for (Iterator<Integer> iterator = vertices.iterator(); iterator.hasNext(); ) {
-                boolean found = false;
                 Integer vertex = iterator.next();
-                for (Integer digit : prufer) {
-                    if (vertex + 1 == digit) {
-                        found = true;
-                    }
-                }
-                if (!found && prufer.size() != 0) {
+
+                if (!prufer.contains(vertex + 1)) {
                     ArrayList<Integer> edge = new ArrayList<>();
                     edge.add(vertex + 1);
                     edge.add(prufer.get(0));
@@ -42,7 +44,6 @@ public class PruferCode {
         for (Integer vertex : vertices) {
             tempEdge.add(vertex + 1);
         }
-        vertices.clear();
         edges.add(tempEdge);
 
         for (int i = 1; i <= amountOfVertices; i++) {
